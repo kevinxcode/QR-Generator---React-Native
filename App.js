@@ -76,8 +76,10 @@ export default function App() {
               backgroundColor="white"
             />
           </ViewShot>
+          <View style={{marginTop: 18}} />
           <Button title="Download QR Code" onPress={captureAndDownload} />
-          <Button title="Clear" onPress={clearText} />
+          <View style={{marginTop: 18}} />
+          <Button title="Clear"  onPress={clearText} />
         </>
       ) : (
         <Text style={styles.message}>Please enter text to generate a QR code.</Text>
