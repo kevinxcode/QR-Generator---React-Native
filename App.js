@@ -15,7 +15,7 @@ export default function App() {
       setIsdata(false);
     }else{
       setIsdata(true);
-    }
+    } 
     setQrValue(data);
   }
 
