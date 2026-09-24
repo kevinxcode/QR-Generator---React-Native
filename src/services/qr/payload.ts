@@ -12,6 +12,13 @@ export function escapeVText(value: string): string {
   return value.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/([,;])/g, '\\$1');
 }
 
+/** Accept "YYYY-MM-DD HH:MM" (local time) as well as ISO strings; returns epoch ms or NaN. */
+export function parseDateTime(v: string): number {
+  const m = /^(d{4})-(d{2})-(d{2})[ T](d{1,2}):(d{2})$/.exec(v.trim());
+  if (m) return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), Number(m[4]), Number(m[5])).getTime();
+  return Date.parse(v);
+}
+
 const digits = (v: string) => v.replace(/[^\d+]/g, '');
 
 export function normalizeUrl(input: string): string {
@@ -78,10 +85,10 @@ export const schemas = {
   event: z.object({
     title: nonEmpty('Title'),
     location: z.string(),
-    start: nonEmpty('Start').refine((v) => !Number.isNaN(Date.parse(v)), 'Use format YYYY-MM-DD HH:MM'),
-    end: nonEmpty('End').refine((v) => !Number.isNaN(Date.parse(v)), 'Use format YYYY-MM-DD HH:MM'),
+    start: nonEmpty('Start').refine((v) => !Number.isNaN(parseDateTime(v)), 'Use format YYYY-MM-DD HH:MM'),
+    end: nonEmpty('End').refine((v) => !Number.isNaN(parseDateTime(v)), 'Use format YYYY-MM-DD HH:MM'),
     description: z.string(),
-  }).refine((v) => Date.parse(v.end) >= Date.parse(v.start), { message: 'End must be after start', path: ['end'] }),
+  }).refine((v) => parseDateTime(v.end) >= parseDateTime(v.start), { message: 'End must be after start', path: ['end'] }),
   social: z.object({
     network: z.enum(['instagram', 'x', 'facebook', 'tiktok', 'linkedin', 'github']),
     handle: nonEmpty('Username'),
@@ -129,7 +136,7 @@ const SOCIAL_BASE: Record<FormValues<'social'>['network'], string> = {
 };
 
 function toICalDate(v: string): string {
-  const d = new Date(v);
+  const d = new Date(parseDateTime(v));
   const p = (n: number) => String(n).padStart(2, '0');
   return `${d.getUTCFullYear()}${p(d.getUTCMonth() + 1)}${p(d.getUTCDate())}T${p(d.getUTCHours())}${p(d.getUTCMinutes())}00Z`;
 }

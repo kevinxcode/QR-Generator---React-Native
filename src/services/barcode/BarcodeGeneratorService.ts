@@ -45,5 +45,6 @@ export function renderBarcodeSvg(format: BarcodeFormat, input: string, opts: Bar
   const m = /viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/.exec(svg);
   const width = m ? Number(m[1]) : 300;
   const height = m ? Number(m[2]) : 150;
-  return { svg, width, height, value: v.value };
+  const sized = /<svg[^>]*\swidth=/.test(svg) ? svg : svg.replace('<svg ', `<svg width="${width}" height="${height}" `);
+  return { svg: sized, width, height, value: v.value };
 }

@@ -72,6 +72,12 @@ describe('buildPayload', () => {
     expect(buildPayload('event', { title: 'x', location: '', start: '2026-10-02T10:00:00Z', end: '2026-10-01T10:00:00Z', description: '' }).ok).toBe(false);
   });
 
+  it('accepts local "YYYY-MM-DD HH:MM" event times', () => {
+    const r = buildPayload('event', { title: 'Party', location: '', start: '2026-10-01 18:00', end: '2026-10-01 20:30', description: '' });
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(r.payload).toMatch(/DTSTART:\d{8}T\d{6}Z/);
+  });
+
   it('keeps unicode and emoji text as-is', () => {
     expect(ok(buildPayload('text', { text: 'こんにちは 🌸 Ünïcødé' }))).toBe('こんにちは 🌸 Ünïcødé');
   });
