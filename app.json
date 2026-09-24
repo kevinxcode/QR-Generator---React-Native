@@ -1,45 +1,57 @@
 {
   "expo": {
-    "name": "qr-code-generator",
+    "name": "Qraft",
     "slug": "qr-code-generator",
     "version": "1.0.0",
+    "scheme": "qraft",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "contain",
+      "backgroundColor": "#0B0D12"
     },
     "ios": {
       "supportsTablet": true,
-      "runtimeVersion": {
-        "policy": "sdkVersion"
-      }
+      "bundleIdentifier": "com.kevinalnizar.iclick.qr",
+      "runtimeVersion": { "policy": "sdkVersion" }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#0B0D12"
       },
-      "package": "com.kevinalnizar.iclick.qr"
+      "package": "com.kevinalnizar.iclick.qr",
+      "permissions": ["android.permission.CAMERA", "android.permission.VIBRATE"]
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
+    "web": { "favicon": "./assets/favicon.png", "bundler": "metro" },
     "extra": {
-      "eas": {
-        "projectId": "de38bd5a-22cf-460c-9d10-3dc06689de11"
-      }
+      "eas": { "projectId": "de38bd5a-22cf-460c-9d10-3dc06689de11" }
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/de38bd5a-22cf-460c-9d10-3dc06689de11"
-    },
+    "runtimeVersion": { "policy": "appVersion" },
+    "updates": { "url": "https://u.expo.dev/de38bd5a-22cf-460c-9d10-3dc06689de11" },
+    "experiments": { "typedRoutes": true },
     "plugins": [
-      "expo-asset"
+      "expo-router",
+      "expo-asset",
+      "expo-font",
+      "expo-sqlite",
+      "expo-sharing",
+      "expo-status-bar",
+      ["expo-splash-screen", { "image": "./assets/splash.png", "backgroundColor": "#0B0D12", "imageWidth": 200 }],
+      ["expo-camera", {
+        "cameraPermission": "Qraft uses the camera to scan QR codes and barcodes. Images never leave your device.",
+        "recordAudioAndroid": false
+      }],
+      ["expo-image-picker", {
+        "photosPermission": "Qraft needs photo access to scan codes from images and to add logos to your QR codes."
+      }],
+      ["expo-media-library", {
+        "photosPermission": "Qraft needs photo access to scan codes from images and to add logos to your QR codes.",
+        "savePhotosPermission": "Qraft saves exported QR codes and barcodes to your gallery.",
+        "isAccessMediaLocationEnabled": false
+      }]
     ]
   }
 }

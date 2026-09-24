@@ -33,3 +33,14 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# signing keys
+key/
+*.keystore
+*.jks
+
+# generated native
+/android
+/ios
+expo-env.d.ts
+coverage/
