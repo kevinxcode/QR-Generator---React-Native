@@ -15,7 +15,7 @@ import { toCsv } from '@/services/export/csv';
 import { shareFile } from '@/services/export/ExportService';
 import { formatLabel } from '@/services/barcode/formats';
 import { LocalFileService } from '@/services/files/LocalFileService';
-import { barcodeTypesFor, normalizeScannedType, type ScanMode } from '@/services/scanner/capabilities';
+import { barcodeTypesFor, normalizeScannedType, rawScanValue, type ScanMode } from '@/services/scanner/capabilities';
 import { BatchSession, ScanCooldown } from '@/services/scanner/dedupe';
 import { parseScan } from '@/services/scanner/ScanResultParser';
 import { notifyDataChanged } from '@/store/data.store';
@@ -63,12 +63,13 @@ function Batch() {
 
   const onScanned = useCallback(
     (r: BarcodeScanningResult) => {
-      if (!r.data) return;
+      const data = rawScanValue(r);
+      if (!data) return;
       const format = normalizeScannedType(r.type);
-      if (!cooldown.current.accept(`${format}:${r.data}`)) return;
-      const res = session.add(r.data, format);
+      if (!cooldown.current.accept(`${format}:${data}`)) return;
+      const res = session.add(data, format);
       feedback(res === 'added' ? 'success' : 'duplicate');
-      setFlash({ text: res === 'added' ? `Added ${r.data.slice(0, 40)}` : 'Already scanned (duplicate)', dup: res !== 'added' });
+      setFlash({ text: res === 'added' ? `Added ${data.slice(0, 40)}` : 'Already scanned (duplicate)', dup: res !== 'added' });
       setRev((v) => v + 1);
     },
     [feedback, session],

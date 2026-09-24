@@ -72,3 +72,11 @@ export function normalizeScannedType(raw: string | number | undefined): CodeForm
   };
   return map[s] ?? 'unknown';
 }
+
+/**
+ * On Android, ML Kit puts a human "display value" in `data` for structured codes
+ * (e.g. "Office secret123" for a Wi-Fi QR). The exact encoded payload is in `raw`.
+ */
+export function rawScanValue(r: { data: string; raw?: string }): string {
+  return r.raw && r.raw.length > 0 ? r.raw : r.data;
+}

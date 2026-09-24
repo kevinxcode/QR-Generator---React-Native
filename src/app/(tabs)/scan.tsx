@@ -10,7 +10,7 @@ import { CameraPermissionGate } from '@/features/scanner/CameraPermissionGate';
 import { scanFromGallery } from '@/features/scanner/galleryScan';
 import { saveScan } from '@/features/scanner/saveScan';
 import { useScanFeedback } from '@/features/scanner/useScanFeedback';
-import { barcodeTypesFor, normalizeScannedType, type ScanMode } from '@/services/scanner/capabilities';
+import { barcodeTypesFor, normalizeScannedType, rawScanValue, type ScanMode } from '@/services/scanner/capabilities';
 import { ScanCooldown } from '@/services/scanner/dedupe';
 import { useSettings } from '@/store/settings.store';
 import { toast } from '@/store/toast.store';
@@ -70,19 +70,20 @@ function Scanner() {
 
   const onScanned = useCallback(
     async (r: BarcodeScanningResult) => {
-      if (busy.current || !r.data) return;
-      if (!cooldown.current.accept(`${r.type}:${r.data}`)) return;
+      const data = rawScanValue(r);
+      if (busy.current || !data) return;
+      if (!cooldown.current.accept(`${r.type}:${data}`)) return;
       busy.current = true;
       const format = normalizeScannedType(r.type);
       feedback('success');
       setPulse((k) => k + 1);
       setStatus('Code detected');
       try {
-        const id = saveScansToHistory ? await saveScan(r.data, format) : undefined;
-        router.push({ pathname: '/scan/result', params: { data: r.data, format, id: id ?? '', from: 'camera' } });
+        const id = saveScansToHistory ? await saveScan(data, format) : undefined;
+        router.push({ pathname: '/scan/result', params: { data, format, id: id ?? '', from: 'camera' } });
       } catch {
         toast.error('Could not save this scan to history.');
-        router.push({ pathname: '/scan/result', params: { data: r.data, format, from: 'camera' } });
+        router.push({ pathname: '/scan/result', params: { data, format, from: 'camera' } });
       }
     },
     [feedback, saveScansToHistory],

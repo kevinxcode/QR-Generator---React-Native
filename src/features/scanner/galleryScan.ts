@@ -3,7 +3,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import { Platform } from 'react-native';
 
-import { normalizeScannedType } from '@/services/scanner/capabilities';
+import { normalizeScannedType, rawScanValue } from '@/services/scanner/capabilities';
 import { toast } from '@/store/toast.store';
 
 export interface DetectedCode {
@@ -30,7 +30,7 @@ export async function scanFromGallery(): Promise<void> {
   if (picked.canceled || !picked.assets[0]) return;
   const uri = picked.assets[0].uri;
 
-  let results: { data: string; type: string }[] = [];
+  let results: { data: string; raw?: string; type: string }[] = [];
   try {
     results = await scanFromURLAsync(uri);
   } catch {
@@ -40,10 +40,11 @@ export async function scanFromGallery(): Promise<void> {
   const found: DetectedCode[] = [];
   for (const r of results) {
     const format = normalizeScannedType(r.type);
-    const key = `${format}:${r.data}`;
-    if (!r.data || seen.has(key)) continue;
+    const data = rawScanValue(r);
+    const key = `${format}:${data}`;
+    if (!data || seen.has(key)) continue;
     seen.add(key);
-    found.push({ data: r.data, format });
+    found.push({ data, format });
   }
 
   if (found.length === 0) {

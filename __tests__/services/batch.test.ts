@@ -1,5 +1,5 @@
 import { toCsv } from '@/services/export/csv';
-import { normalizeScannedType } from '@/services/scanner/capabilities';
+import { normalizeScannedType, rawScanValue } from '@/services/scanner/capabilities';
 import { BatchSession, ScanCooldown } from '@/services/scanner/dedupe';
 
 describe('ScanCooldown', () => {
@@ -65,5 +65,13 @@ describe('normalizeScannedType', () => {
     ['org.iso.Code128', 'code128'], ['itf14', 'itf14'], [256, 'qr'], [32, 'ean13'], ['weird', 'unknown'],
   ] as const)('%s → %s', (input, out) => {
     expect(normalizeScannedType(input)).toBe(out);
+  });
+});
+
+describe('rawScanValue', () => {
+  it('prefers the raw ML Kit payload over the display value', () => {
+    expect(rawScanValue({ data: 'Office secret123', raw: 'WIFI:T:WPA;S:Office;P:secret123;;' })).toBe('WIFI:T:WPA;S:Office;P:secret123;;');
+    expect(rawScanValue({ data: 'https://x.io' })).toBe('https://x.io');
+    expect(rawScanValue({ data: 'abc', raw: '' })).toBe('abc');
   });
 });

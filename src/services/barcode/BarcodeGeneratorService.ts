@@ -1,4 +1,4 @@
-import bwipjs from 'bwip-js';
+import { toSVG } from 'bwip-js/generic';
 
 import type { BarcodeFormat, BarcodeOptions } from '@/types/domain';
 
@@ -28,7 +28,7 @@ export function renderBarcodeSvg(format: BarcodeFormat, input: string, opts: Bar
   if (!v.ok) throw new Error(v.error);
   const info = barcodeInfo(format);
   // For GS1 formats bwip-js expects the full value including check digit.
-  const svg = bwipjs.toSVG({
+  const svg = toSVG({
     bcid: info.bcid,
     text: v.value,
     scale: 3,
