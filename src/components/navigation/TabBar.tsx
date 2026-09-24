@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import type { BottomTabBarProps } from 'expo-router/tabs';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -44,7 +45,8 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
                 accessibilityLabel="Scan a code"
                 style={[styles.fab, { backgroundColor: p.primary, shadowColor: p.primary }]}
               >
-                <Ionicons name="scan" size={26} color={p.onPrimary} />
+                <LinearGradient colors={p.heroGradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[StyleSheet.absoluteFill, { borderRadius: 20 }]} />
+                <Ionicons name="scan" size={26} color="#FFFFFF" />
               </PressableScale>
             );
           }

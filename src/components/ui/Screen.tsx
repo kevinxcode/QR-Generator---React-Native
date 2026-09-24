@@ -28,7 +28,7 @@ export function Screen({ title, subtitle, back, right, children, scroll = true, 
   const insets = useSafeAreaInsets();
   const bottom = (tabBar ? 96 : spacing.xl) + (footer ? 0 : insets.bottom);
   return (
-    <View style={[styles.root, { backgroundColor: p.bg, paddingTop: insets.top }]}>
+    <View style={[styles.root, { paddingTop: insets.top }]}>
       {(title || back || right) && (
         <View style={styles.header}>
           {back && <IconButton icon="chevron-back" label="Back" onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} />}
@@ -59,7 +59,7 @@ export function Screen({ title, subtitle, back, right, children, scroll = true, 
       ) : (
         <View style={{ flex: 1 }}>{children}</View>
       )}
-      {footer && <View style={[styles.footer, { paddingBottom: insets.bottom + spacing.sm, backgroundColor: p.bg, borderTopColor: p.border }]}>{footer}</View>}
+      {footer && <View style={[styles.footer, { paddingBottom: insets.bottom + spacing.sm, backgroundColor: p.surfaceGlass, borderTopColor: p.border }]}>{footer}</View>}
     </View>
   );
 }

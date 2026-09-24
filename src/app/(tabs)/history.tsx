@@ -54,7 +54,7 @@ export default function History() {
   const searching = !!filters.search || filters.range !== 'any';
 
   return (
-    <View style={[styles.root, { backgroundColor: p.bg, paddingTop: insets.top }]}>
+    <View style={[styles.root, { paddingTop: insets.top }]}>
       <View style={styles.header}>
         <Text variant="title" style={{ flex: 1 }} accessibilityRole="header">
           History

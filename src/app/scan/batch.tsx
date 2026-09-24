@@ -115,7 +115,7 @@ function Batch() {
   const camH = Math.round(height * 0.42);
 
   return (
-    <View style={{ flex: 1, backgroundColor: p.bg }}>
+    <View style={{ flex: 1 }}>
       <View style={{ height: camH, backgroundColor: '#000', overflow: 'hidden', borderBottomLeftRadius: radius.xl, borderBottomRightRadius: radius.xl }}>
         {active && !paused && <CameraView style={StyleSheet.absoluteFill} enableTorch={torch} barcodeScannerSettings={settings} onBarcodeScanned={onScanned} />}
         {paused && (

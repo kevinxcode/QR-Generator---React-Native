@@ -62,3 +62,12 @@ export function codeSummary(c: Pick<CodeRecord, 'payload' | 'contentType' | 'tit
 export function codeFormatLabel(c: Pick<CodeRecord, 'format'>): string {
   return formatLabel(c.format);
 }
+
+/** Feature colour family used for a content type's icon. */
+export function featureFor(contentType: string): 'scan' | 'create' | 'barcode' | 'gallery' | 'wifi' {
+  if (contentType === 'wifi') return 'wifi';
+  if (contentType === 'barcode' || contentType === 'product') return 'barcode';
+  if (['vcard', 'email', 'phone', 'sms', 'whatsapp', 'telegram'].includes(contentType)) return 'scan';
+  if (['social', 'youtube', 'spotify', 'event', 'location'].includes(contentType)) return 'gallery';
+  return 'create';
+}

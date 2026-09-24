@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { ActivityIndicator, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { useTheme } from '@/theme/ThemeProvider';
@@ -52,9 +53,11 @@ export function Button({ title, onPress, variant = 'primary', icon, loading, dis
         { backgroundColor: bg[variant], minHeight: Math.max(h, size === 'sm' ? 36 : MIN_TOUCH), opacity: disabled ? 0.45 : 1 },
         size === 'sm' && { paddingHorizontal: spacing.sm },
         flex && { flex: 1 },
+        variant === 'primary' && { overflow: 'hidden' },
         style,
       ]}
     >
+      {variant === 'primary' && <LinearGradient colors={p.ctaGradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />}
       {loading ? (
         <ActivityIndicator color={fg[variant]} />
       ) : (

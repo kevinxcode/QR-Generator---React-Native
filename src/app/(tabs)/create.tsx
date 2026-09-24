@@ -11,13 +11,13 @@ import { BARCODE_FORMATS } from '@/services/barcode/formats';
 import { CONTENT_TYPES, type ContentTypeDef } from '@/services/qr/contentTypes';
 import { BUILTIN_TEMPLATES } from '@/services/qr/templates';
 import { useTheme } from '@/theme/ThemeProvider';
-import { radius, spacing } from '@/theme/tokens';
+import { radius, spacing, type FeatureKey } from '@/theme/tokens';
 
-const GROUPS: { key: ContentTypeDef['group']; title: string }[] = [
-  { key: 'essentials', title: 'Essentials' },
-  { key: 'communication', title: 'Communication' },
-  { key: 'social', title: 'Social & media' },
-  { key: 'other', title: 'More' },
+const GROUPS: { key: ContentTypeDef['group']; title: string; feature: FeatureKey }[] = [
+  { key: 'essentials', title: 'Essentials', feature: 'create' },
+  { key: 'communication', title: 'Communication', feature: 'scan' },
+  { key: 'social', title: 'Social & media', feature: 'gallery' },
+  { key: 'other', title: 'More', feature: 'barcode' },
 ];
 
 export default function Create() {
@@ -51,8 +51,8 @@ export default function Create() {
                 accessibilityLabel={`${c.label} QR code. ${c.description}`}
                 style={[styles.tile, { backgroundColor: p.surface, borderColor: p.border }]}
               >
-                <View style={[styles.tileIcon, { backgroundColor: p.primarySoft }]}>
-                  <Ionicons name={c.icon} size={20} color={p.primary} />
+                <View style={[styles.tileIcon, { backgroundColor: p.feature[c.type === 'wifi' ? 'wifi' : g.feature].tint }]}>
+                  <Ionicons name={c.icon} size={20} color={p.feature[c.type === 'wifi' ? 'wifi' : g.feature].color} />
                 </View>
                 <Text variant="bodyStrong" numberOfLines={1}>
                   {c.label}
@@ -70,7 +70,9 @@ export default function Create() {
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: spacing.xs }}>
         {BARCODE_FORMATS.map((f) => (
           <PressableScale key={f.id} haptic onPress={() => startBarcode(f.id)} accessibilityLabel={`${f.label} barcode. ${f.description}`} style={[styles.barcode, { backgroundColor: p.surface, borderColor: p.border }]}>
-            <Ionicons name="barcode-outline" size={22} color={p.text} />
+            <View style={[styles.tileIcon, { backgroundColor: p.feature.barcode.tint }]}>
+              <Ionicons name="barcode-outline" size={20} color={p.feature.barcode.color} />
+            </View>
             <Text variant="bodyStrong">{f.label}</Text>
             <Text variant="caption" color="muted" numberOfLines={2}>
               {f.description}

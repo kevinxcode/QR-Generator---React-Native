@@ -134,7 +134,7 @@ export default function QRStudio() {
   const levelTone = report?.level === 'excellent' ? 'success' : report?.level === 'good' ? 'primary' : 'danger';
 
   return (
-    <View style={[styles.root, { backgroundColor: p.bg, paddingTop: insets.top }]}>
+    <View style={[styles.root, { paddingTop: insets.top }]}>
       <View style={styles.header}>
         <IconButton icon="chevron-back" label="Back" onPress={() => router.back()} />
         <Text variant="heading" style={{ flex: 1 }}>

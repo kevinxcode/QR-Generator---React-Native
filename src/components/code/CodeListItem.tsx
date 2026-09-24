@@ -9,7 +9,7 @@ import { PressableScale, Text } from '@/components/ui';
 import { useTheme } from '@/theme/ThemeProvider';
 import { radius, spacing } from '@/theme/tokens';
 import type { CodeRecord } from '@/types/domain';
-import { codeFormatLabel, codeSummary, relativeDate, typeMeta } from '@/utils/format';
+import { codeFormatLabel, codeSummary, featureFor, relativeDate, typeMeta } from '@/utils/format';
 
 interface Props {
   item: CodeRecord;
@@ -21,6 +21,7 @@ interface Props {
 export const CodeListItem = memo(function CodeListItem({ item, onToggleFavorite, onDelete, compact }: Props) {
   const p = useTheme();
   const meta = typeMeta(item.contentType);
+  const tone = p.feature[featureFor(item.contentType)];
   const swipe = useRef<SwipeableMethods>(null);
   const summary = codeSummary(item);
   const sourceIcon = item.source === 'scanned' ? 'scan-outline' : item.source === 'imported' ? 'download-outline' : 'sparkles-outline';
@@ -33,8 +34,8 @@ export const CodeListItem = memo(function CodeListItem({ item, onToggleFavorite,
       accessibilityHint="Opens details. Swipe for favorite or delete."
       style={[styles.row, { backgroundColor: p.surface, borderColor: p.border, paddingVertical: compact ? 10 : 12 }]}
     >
-      <View style={[styles.icon, { backgroundColor: p.primarySoft }]}>
-        <Ionicons name={meta.icon} size={20} color={p.primary} />
+      <View style={[styles.icon, { backgroundColor: tone.tint }]}>
+        <Ionicons name={meta.icon} size={20} color={tone.color} />
       </View>
       <View style={{ flex: 1, gap: 2 }}>
         <Text variant="bodyStrong" numberOfLines={1}>

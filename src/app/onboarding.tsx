@@ -36,7 +36,7 @@ export default function Onboarding() {
   };
 
   return (
-    <View style={[styles.root, { backgroundColor: p.bg, paddingTop: insets.top, paddingBottom: insets.bottom + spacing.md }]}>
+    <View style={[styles.root, { paddingTop: insets.top, paddingBottom: insets.bottom + spacing.md }]}>
       <View style={styles.top}>
         <Text variant="heading">Qraft</Text>
         {page < PAGES.length - 1 && (
