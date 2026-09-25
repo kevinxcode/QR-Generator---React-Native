@@ -13,6 +13,16 @@ No account, no backend, no cloud: all data lives in SQLite on the device.
 
 ## Commands
 
+# android native buiild
+- npx expo run:android --device
+
+- npx expo prebuild --clean 
+- npx expo prebuild --platform android
+- cd android
+- .\gradlew assembleRelease
+- .\gradlew assembleDebug
+- .\gradlew bundleRelease
+
 ```bash
 npm install
 npm run android        # expo run:android — build & install the dev client

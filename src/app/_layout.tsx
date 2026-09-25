@@ -17,7 +17,8 @@ import { ThemeProvider, useTheme } from '@/theme/ThemeProvider';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
-function Shell() {
+// The Stack must mount on the first render (expo-router requirement); screens stay blank until startup finishes.
+function Shell({ ready, error, onRetry }: { ready: boolean; error: string | null; onRetry(): void }) {
   const p = useTheme();
   useEffect(() => {
     SystemUI.setBackgroundColorAsync(p.bg).catch(() => {});
@@ -26,14 +27,22 @@ function Shell() {
     <View style={{ flex: 1, backgroundColor: p.bg }}>
       <LinearGradient colors={p.bgGradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={StyleSheet.absoluteFill} />
       <StatusBar style={p.scheme === 'dark' ? 'light' : 'dark'} />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: 'transparent' }, animation: 'slide_from_right' }}>
+      <Stack
+        screenOptions={{ headerShown: false, contentStyle: { backgroundColor: 'transparent' }, animation: 'slide_from_right' }}
+        screenLayout={({ children }) => (ready ? children : <View style={{ flex: 1 }} />)}
+      >
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="onboarding" options={{ animation: 'fade', gestureEnabled: false }} />
         <Stack.Screen name="scan/result" options={{ animation: 'slide_from_bottom' }} />
         <Stack.Screen name="scan/batch" options={{ animation: 'fade' }} />
       </Stack>
-      <PngRenderHost />
-      <ToastHost />
+      {ready && <PngRenderHost />}
+      {ready && <ToastHost />}
+      {!ready && error ? (
+        <View style={StyleSheet.absoluteFill}>
+          <StartupError message={error} onRetry={onRetry} />
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -68,11 +77,7 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <ThemeProvider>
-          {ready ? (
-            <Shell />
-          ) : error ? (
-            <StartupError message={error} onRetry={() => setAttempt((a) => a + 1)} />
-          ) : null}
+          <Shell ready={ready} error={error} onRetry={() => setAttempt((a) => a + 1)} />
         </ThemeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
