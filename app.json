@@ -100,7 +100,8 @@
         }
       ],
       "expo-image",
-      "./plugins/withReleaseSigning"
+      "./plugins/withReleaseSigning",
+      "./plugins/withGradleMemory"
     ]
   }
 }
