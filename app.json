@@ -21,7 +21,7 @@
         "monochromeImage": "./assets/adaptive-icon-monochrome.png",
         "backgroundColor": "#6C4FF6"
       },
-      "package": "com.kevinalnizar.iclick.qr",
+      "package": "com.fadedind.qraft.qr",
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.VIBRATE"
@@ -99,7 +99,8 @@
           "enableBackgroundRecording": false
         }
       ],
-      "expo-image"
+      "expo-image",
+      "./plugins/withReleaseSigning"
     ]
   }
 }

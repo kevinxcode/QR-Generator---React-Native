@@ -35,9 +35,10 @@ yarn-error.*
 *.tsbuildinfo
 
 # signing keys
-key/
-*.keystore
-*.jks
+# key/*
+# !key/signing.example.json
+# *.keystore
+# *.jks
 
 # generated native
 /android

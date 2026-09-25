@@ -1,0 +1,6 @@
+{
+  "storeFile": "qraft-upload.jks",
+  "keyAlias": "qraft-upload",
+  "storePassword": "CHANGE_ME",
+  "keyPassword": "CHANGE_ME"
+}
