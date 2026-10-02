@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Qraft",
+    "name": "Qraft — QR & Barcode Studio",
     "slug": "qr-code-generator",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "scheme": "qraft",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,7 +22,7 @@
         "backgroundColor": "#6C4FF6"
       },
       "package": "com.fadedind.qraft.qr",
-      "versionCode": 3,
+      "versionCode": 4,
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.VIBRATE"
