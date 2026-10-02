@@ -13,6 +13,32 @@ No account, no backend, no cloud: all data lives in SQLite on the device.
 
 ## Commands
 
+# publish  
+```
+ eas build --platform ios --profile production
+ eas build --platform ios --profile production --clear-cache
+ eas submit --platform ios --profile production
+ ```
+
+## android
+```
+eas build -p android --profile production // aab
+eas build -p android --profile preview //apk
+```
+
+------
+
+# devclient 
+# ios
+```
+eas build --profile development --platform ios --clear-cache
+```
+
+# android 
+```
+eas build --platform android --profile development
+```
+
 # android native buiild
 - npx expo run:android --device
 

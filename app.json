@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.kevinalnizar.iclick.qr",
+      "bundleIdentifier": "com.fadedind.qraft.qr",
       "runtimeVersion": {
         "policy": "sdkVersion"
       }
@@ -56,6 +56,15 @@
     },
     "plugins": [
       "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
+          }
+        }
+      ],
       "expo-asset",
       "expo-font",
       "expo-sqlite",
